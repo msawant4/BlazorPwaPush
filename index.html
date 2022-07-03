@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>BlazorPwaPush</title>
+    <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="BlazorPwaPush.Client.styles.css" rel="stylesheet" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+</head>
+
+<body>
+    <div id="app">Loading...</div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script>
+        addEventListener('load', async () => {
+            let sw = await navigator.serviceWorker.register('./service-worker.js')
+            console.log(sw)
+        })
+
+        async function subscribe() {
+            try {
+                let sw = await navigator.serviceWorker.ready;
+                let push = await sw.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: 'BA6dMj3mXjhdTpSYhPb-QtTLMOp_90t1C_s1-TuCQ71wUG-56BdMbVV1_cXQWmtpPReKfWBb5Qt0Ggv3n1jsquM'
+                })
+
+                console.log(JSON.stringify(push))
+            } catch (err) {
+                console.log(err);
+            }
+
+        }
+    </script>
+</body>
+
+</html>
